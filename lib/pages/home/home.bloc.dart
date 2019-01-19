@@ -5,6 +5,11 @@ import 'package:rxdart/rxdart.dart';
 
 class HomeBloc {
   final pageController = new PageController();
+  int _currentPage;
+  final _currentPageController = BehaviorSubject<int>();
+
+  Stream<int> get currentPage => _currentPageController.stream;
+
   List<Map> response = [
     {
       'numeroDia': 21,
@@ -68,21 +73,16 @@ class HomeBloc {
     },
   ];
 
-//  Day day1 = new Day.fromJSON(response[0]);
-
-//  Week week = Week(
-//      new Day.fromJSON(response[0]),
-//      new Day.fromJSON(this.response[0]),
-//      new Day.fromJSON(this.response[0]),
-//      new Day.fromJSON(this.response[0]),
-//      new Day.fromJSON(this.response[0]),
-//  );
-
-
   dispose() {}
 
   void toPage(int page) async {
     await pageController.animateToPage(page,
         duration: Duration(milliseconds: 280), curve: Curves.ease);
+  }
+
+  void setPage(page) {
+    print(page);
+    _currentPage = page;
+    _currentPageController.add(_currentPage);
   }
 }

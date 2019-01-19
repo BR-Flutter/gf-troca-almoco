@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gf_troca_almoco/pages/home/home.provider.dart';
 import 'package:gf_troca_almoco/pages/home/home.model.dart';
+import 'package:gf_troca_almoco/pages/home/header.widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            _headerWeek(context, bloc),
+            headerWeek(context, bloc),
             Flexible(
                 fit: FlexFit.loose,
                 child: Container(
@@ -50,6 +51,9 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.all(16.0),
                     child: PageView(
                       controller: bloc.pageController,
+                      onPageChanged: (page) {
+                        bloc.setPage(page);
+                      },
                       children: <Widget>[
                         ListView(
                           children: _listDish(
@@ -77,35 +81,6 @@ class _HomePageState extends State<HomePage> {
                 ))
           ],
         ));
-  }
-
-  Widget _headerWeek(BuildContext context, HomeBloc bloc) {
-    return Container(
-      color: Colors.green[800],
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Semana 04',
-                  style: Theme.of(context).textTheme.body1,
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.end,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: _listDayWeek(context, bloc),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _dish(BuildContext context, Dish dish) {
@@ -154,43 +129,9 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  List<Widget> _listDayWeek(BuildContext context, HomeBloc bloc) {
-    List<Widget> list = [];
-    for (var i = 0; i < bloc.response.length; i++) {
-      Widget day = _dayWeek(context, Day.fromJSON(bloc.response[i]), i);
-      list.add(day);
-    }
-    return list;
-  }
-
-//  List<Widget> _listPages(BuildContext context) {
-//    List<Widget> list = [];
-//    for (var i = 0; i < bloc.response.length; i++) {
-//      List<Widget> day = _listDish(context, Day.fromJSON(bloc.response[i]));
-//      list.add(day);
-//    }
-//    return list;
-//  }
-
   List<Widget> _listDish(BuildContext context, Day day) {
     List<Widget> list = [];
     day.dish.forEach((d) => list.add(_dish(context, d)));
     return list;
-  }
-
-  Widget _dayWeek(BuildContext context, Day day, int page) {
-    return GestureDetector(
-      onTap: () {
-        bloc.toPage(page);
-      },
-      child: Column(
-        children: <Widget>[
-          Text(day.mes, style: Theme.of(context).textTheme.body1),
-          Text(day.numeroDia.toString(),
-              style: Theme.of(context).textTheme.title),
-          Text(day.nomeDia, style: Theme.of(context).textTheme.body2),
-        ],
-      ),
-    );
   }
 }
