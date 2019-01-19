@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gf_troca_almoco/pages/home/home.bloc.dart';
+export 'package:gf_troca_almoco/pages/home/home.bloc.dart';
 
 class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
@@ -9,7 +10,7 @@ class HomeBlocProvider extends InheritedWidget {
         super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+  bool updateShouldNotify(__) => true;
 
   static HomeBloc of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(HomeBlocProvider)
