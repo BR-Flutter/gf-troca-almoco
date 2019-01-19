@@ -15,13 +15,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-//    bloc = HomeBlocProvider.of(context);
+    bloc = HomeBlocProvider.of(context);
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-//    bloc.dispose();
+    bloc.dispose();
     super.dispose();
   }
 
@@ -50,10 +50,6 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.all(16.0),
                     child: PageView(
                       controller: bloc.pageController,
-                      onPageChanged: (index) {
-                        print('index $index');
-//                        pageChanged(index);
-                      },
                       children: <Widget>[
                         ListView(
                           children: <Widget>[_dish(context)],
@@ -84,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                             _dish(context),
                             _dish(context)
                           ],
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -149,8 +145,6 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> listDayWeek(BuildContext context, HomeBloc bloc) {
     List<Widget> list = [];
-    var now = new DateTime.now();
-    print(now.month);
     for (var i = 0; i < bloc.response.length; i++) {
       Widget day = _dayWeek(context, Day.fromJSON(bloc.response[i]), i);
       list.add(day);
@@ -160,10 +154,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _dayWeek(BuildContext context, Day day, int page) {
     return GestureDetector(
-      onTap: () {
-        bloc.pageController.animateToPage(page,
-            duration: Duration(milliseconds: 480), curve: Curves.elasticIn);
-      },
+      onTap: () {bloc.toPage(page);},
       child: Column(
         children: <Widget>[
           Text(day.mes, style: Theme.of(context).textTheme.body1),

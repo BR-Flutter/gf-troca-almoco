@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 class HomeBloc {
-  final pageController = PageController(initialPage: 1);
+  final pageController = new PageController();
   List<Map> response = [
     {'numeroDia': 21, 'mes': 'JAN', 'nomeDia': 'Segunda'},
     {'numeroDia': 22, 'mes': 'JAN', 'nomeDia': 'Terça'},
@@ -11,4 +11,11 @@ class HomeBloc {
     {'numeroDia': 24, 'mes': 'JAN', 'nomeDia': 'Quinta'},
     {'numeroDia': 25, 'mes': 'JAN', 'nomeDia': 'Sexta'},
   ];
+
+  dispose() {}
+
+  void toPage(int page) async {
+    await pageController.animateToPage(page, duration: Duration(milliseconds: 280), curve: Curves.ease);
+  }
+
 }
