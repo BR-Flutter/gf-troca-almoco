@@ -52,34 +52,24 @@ class _HomePageState extends State<HomePage> {
                       controller: bloc.pageController,
                       children: <Widget>[
                         ListView(
-                          children: <Widget>[_dish(context)],
+                          children: _listDish(
+                              context, Day.fromJSON(bloc.response[0])),
                         ),
                         ListView(
-                          children: <Widget>[_dish(context), _dish(context)],
+                          children: _listDish(
+                              context, Day.fromJSON(bloc.response[1])),
                         ),
                         ListView(
-                          children: <Widget>[
-                            _dish(context),
-                            _dish(context),
-                            _dish(context)
-                          ],
+                          children: _listDish(
+                              context, Day.fromJSON(bloc.response[2])),
                         ),
                         ListView(
-                          children: <Widget>[
-                            _dish(context),
-                            _dish(context),
-                            _dish(context),
-                            _dish(context)
-                          ],
+                          children: _listDish(
+                              context, Day.fromJSON(bloc.response[3])),
                         ),
                         ListView(
-                          children: <Widget>[
-                            _dish(context),
-                            _dish(context),
-                            _dish(context),
-                            _dish(context),
-                            _dish(context)
-                          ],
+                          children: _listDish(
+                              context, Day.fromJSON(bloc.response[4])),
                         )
                       ],
                     ),
@@ -110,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: listDayWeek(context, bloc),
+              children: _listDayWeek(context, bloc),
             ),
           ),
         ],
@@ -118,7 +108,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _dish(BuildContext context) {
+  Widget _dish(BuildContext context, Dish dish) {
     return Card(
       color: Colors.white,
       child: Padding(
@@ -129,21 +119,42 @@ class _HomePageState extends State<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Prato Principal',
+                  Text(_dishType(dish.type),
                       style: Theme.of(context).textTheme.display1),
-                  Text('Bife de palma ao vinagre',
-                      style: Theme.of(context).textTheme.display2),
+                  Text(dish.name, style: Theme.of(context).textTheme.display2),
                 ],
               ),
-              IconButton(
-                icon: Icon(Icons.autorenew),
-              )
+              _dishSwap(dish.swap)
             ],
           )),
     );
   }
 
-  List<Widget> listDayWeek(BuildContext context, HomeBloc bloc) {
+  Widget _dishSwap(bool swap) {
+    if (swap == true) {
+      return IconButton(
+        icon: Icon(Icons.autorenew),
+      );
+    }
+    return new Container(padding: EdgeInsets.all(24.0));
+  }
+
+  String _dishType(int type) {
+    switch (type) {
+      case 1:
+        return 'Prato Principal';
+      case 2:
+        return 'Prato Secundario';
+      case 3:
+        return 'Sobremesa';
+      case 4:
+        return 'Salada 1';
+      case 5:
+        return 'Salada 2';
+    }
+  }
+
+  List<Widget> _listDayWeek(BuildContext context, HomeBloc bloc) {
     List<Widget> list = [];
     for (var i = 0; i < bloc.response.length; i++) {
       Widget day = _dayWeek(context, Day.fromJSON(bloc.response[i]), i);
@@ -152,9 +163,26 @@ class _HomePageState extends State<HomePage> {
     return list;
   }
 
+//  List<Widget> _listPages(BuildContext context) {
+//    List<Widget> list = [];
+//    for (var i = 0; i < bloc.response.length; i++) {
+//      List<Widget> day = _listDish(context, Day.fromJSON(bloc.response[i]));
+//      list.add(day);
+//    }
+//    return list;
+//  }
+
+  List<Widget> _listDish(BuildContext context, Day day) {
+    List<Widget> list = [];
+    day.dish.forEach((d) => list.add(_dish(context, d)));
+    return list;
+  }
+
   Widget _dayWeek(BuildContext context, Day day, int page) {
     return GestureDetector(
-      onTap: () {bloc.toPage(page);},
+      onTap: () {
+        bloc.toPage(page);
+      },
       child: Column(
         children: <Widget>[
           Text(day.mes, style: Theme.of(context).textTheme.body1),
