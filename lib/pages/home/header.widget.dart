@@ -36,43 +36,79 @@ Widget headerWeek(BuildContext context, HomeBloc bloc) {
 List<Widget> _listDayWeek(BuildContext context, HomeBloc bloc) {
   List<Widget> list = [];
   for (var i = 0; i < bloc.response.length; i++) {
-    Widget day = _dayWeek(context, Day.fromJSON(bloc.response[i]), i, bloc);
+    Widget day = DayWeek(Day.fromJSON(bloc.response[i]), i, bloc);
     list.add(day);
   }
   return list;
 }
 
-Widget _dayWeek(BuildContext context, Day day, int page, HomeBloc bloc) {
-  return Container(
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
-    child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-          onTap: () {
-            bloc.toPage(page);
-          },
-          highlightColor: Colors.green[700],
-          splashColor: Colors.green[600],
-          child: Container(
-            padding: EdgeInsets.all(8.0),
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
-            child: StreamBuilder(
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  print('re-build');
-                  return Column(
-                    children: <Widget>[
-                      Text(day.mes, style: Theme.of(context).textTheme.body1),
-                      Text(day.numeroDia.toString(),
-                          style: Theme.of(context).textTheme.title),
-                      Text(day.nomeDia,
-                          style: Theme.of(context).textTheme.body2),
-                    ],
-                  );
-                },
-                stream: bloc.currentPage,
-                initialData: 0),
-          )),
-    ),
-  );
+class DayWeek extends StatefulWidget {
+  Day day;
+  int page;
+  HomeBloc bloc;
+
+  DayWeek(this.day, this.page, this.bloc);
+
+  @override
+  _DayWeekState createState() => _DayWeekState();
+}
+
+class _DayWeekState extends State<DayWeek> with TickerProviderStateMixin {
+  AnimationController animation;
+  Animation<Color> increaseAnimationColor;
+
+  @override
+  void initState() {
+    animation = new AnimationController(
+        duration: Duration(milliseconds: 280), vsync: this);
+    increaseAnimationColor =
+        new ColorTween(begin: Colors.white54, end: Colors.white)
+            .animate(animation)
+              ..addListener(() {
+                this.widget.bloc.setColor(increaseAnimationColor.value);
+              });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+            onTap: () {
+              this.widget.bloc.toPage(this.widget.page);
+            },
+            highlightColor: Colors.green[700],
+            splashColor: Colors.green[600],
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
+              child: StreamBuilder(
+                  builder: (BuildContext context, AsyncSnapshot snapshotPage) {
+                    print('re-build');
+                    return StreamBuilder(
+                      builder: (BuildContext context,
+                          AsyncSnapshot snapshotAnimaton) {
+                        return Column(
+                          children: <Widget>[
+                            Text(this.widget.day.mes,
+                                style: Theme.of(context).textTheme.body1),
+                            Text(this.widget.day.numeroDia.toString(),
+                                style: Theme.of(context).textTheme.title),
+                            Text(this.widget.day.nomeDia,
+                                style: Theme.of(context).textTheme.body2),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  stream: this.widget.bloc.currentPage,
+                  initialData: 0),
+            )),
+      ),
+    );
+  }
 }

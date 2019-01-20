@@ -8,6 +8,15 @@ class HomeBloc {
   int _currentPage;
   final _currentPageController = BehaviorSubject<int>();
 
+  final _colorAnimationController = BehaviorSubject<Color>();
+
+  Stream<Color> get color => _colorAnimationController.stream;
+
+  setColor(Color value) {
+    print('setColor ${value}');
+    _colorAnimationController.sink.add(value);
+  }
+
   Stream<int> get currentPage => _currentPageController.stream;
 
   List<Map> response = [
