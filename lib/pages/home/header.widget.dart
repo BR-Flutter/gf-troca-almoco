@@ -43,23 +43,36 @@ List<Widget> _listDayWeek(BuildContext context, HomeBloc bloc) {
 }
 
 Widget _dayWeek(BuildContext context, Day day, int page, HomeBloc bloc) {
-  return GestureDetector(
-    onTap: () {
-      bloc.toPage(page);
-    },
-    child: StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print('re-build');
-          return Column(
-            children: <Widget>[
-              Text(day.mes, style: Theme.of(context).textTheme.body1),
-              Text(day.numeroDia.toString(),
-                  style: Theme.of(context).textTheme.title),
-              Text(day.nomeDia, style: Theme.of(context).textTheme.body2),
-            ],
-          );
-        },
-        stream: bloc.currentPage,
-        initialData: 0),
+  return Container(
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+          onTap: () {
+            bloc.toPage(page);
+          },
+          highlightColor: Colors.green[700],
+          splashColor: Colors.green[600],
+          child: Container(
+            padding: EdgeInsets.all(8.0),
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
+            child: StreamBuilder(
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  print('re-build');
+                  return Column(
+                    children: <Widget>[
+                      Text(day.mes, style: Theme.of(context).textTheme.body1),
+                      Text(day.numeroDia.toString(),
+                          style: Theme.of(context).textTheme.title),
+                      Text(day.nomeDia,
+                          style: Theme.of(context).textTheme.body2),
+                    ],
+                  );
+                },
+                stream: bloc.currentPage,
+                initialData: 0),
+          )),
+    ),
   );
 }
