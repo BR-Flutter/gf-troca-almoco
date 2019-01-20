@@ -37,10 +37,27 @@ class _HomePageState extends State<HomePage> {
           elevation: 0.0,
         ),
         drawer: Drawer(
-          child: Column(
-            children: <Widget>[],
-          ),
-        ),
+            child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[Text('Trocas')],
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+            ListTile(
+                title:
+                    Text('Home', style: Theme.of(context).textTheme.display1)),
+            ListTile(
+                title:
+                    Text('Sair', style: Theme.of(context).textTheme.display1))
+          ],
+        )),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
