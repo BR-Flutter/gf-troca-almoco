@@ -34,7 +34,6 @@ class Dish extends Object {
   Dish(this.type, this.name, this.swap);
 
   Dish.fromJSON(Map<dynamic, dynamic> json) {
-    print(json);
     type = json['type'];
     name = json['name'];
     swap = json['swap'];

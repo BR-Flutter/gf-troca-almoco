@@ -60,7 +60,7 @@ class _DayWeekState extends State<DayWeek> with TickerProviderStateMixin {
   @override
   void initState() {
     animation = new AnimationController(
-        duration: Duration(milliseconds: 280), vsync: this);
+        duration: Duration(milliseconds: 480), vsync: this);
     increaseAnimationColor =
         new ColorTween(begin: Colors.white54, end: Colors.white)
             .animate(animation)
@@ -88,22 +88,46 @@ class _DayWeekState extends State<DayWeek> with TickerProviderStateMixin {
                   BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
               child: StreamBuilder(
                   builder: (BuildContext context, AsyncSnapshot snapshotPage) {
-                    print('re-build');
-                    return StreamBuilder(
-                      builder: (BuildContext context,
-                          AsyncSnapshot snapshotAnimaton) {
-                        return Column(
-                          children: <Widget>[
-                            Text(this.widget.day.mes,
-                                style: Theme.of(context).textTheme.body1),
-                            Text(this.widget.day.numeroDia.toString(),
-                                style: Theme.of(context).textTheme.title),
-                            Text(this.widget.day.nomeDia,
-                                style: Theme.of(context).textTheme.body2),
-                          ],
-                        );
-                      },
-                    );
+                    if (this.widget.page == snapshotPage.data) {
+                      animation.forward();
+                      return StreamBuilder(
+                        builder: (BuildContext context,
+                            AsyncSnapshot snapshotAnimaton) {
+                          return Column(
+                            children: <Widget>[
+                              Text(this.widget.day.mes,
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: snapshotAnimaton.data,
+                                      fontWeight: FontWeight.w500)),
+                              Text(this.widget.day.numeroDia.toString(),
+                                  style: TextStyle(
+                                      fontSize: 36.0,
+                                      color: snapshotAnimaton.data)),
+                              Text(
+                                this.widget.day.nomeDia,
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: snapshotAnimaton.data,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          );
+                        },
+                        stream: this.widget.bloc.color,
+                      );
+                    } else {
+                      return Column(
+                        children: <Widget>[
+                          Text(this.widget.day.mes,
+                              style: Theme.of(context).textTheme.body1),
+                          Text(this.widget.day.numeroDia.toString(),
+                              style: Theme.of(context).textTheme.title),
+                          Text(this.widget.day.nomeDia,
+                              style: Theme.of(context).textTheme.body2),
+                        ],
+                      );
+                    }
                   },
                   stream: this.widget.bloc.currentPage,
                   initialData: 0),

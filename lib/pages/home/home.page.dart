@@ -94,9 +94,9 @@ class _HomePageState extends State<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(_dishType(dish.type),
+                  Text(dish.name,
                       style: Theme.of(context).textTheme.display1),
-                  Text(dish.name, style: Theme.of(context).textTheme.display2),
+                  Text(_dishType(dish.type), style: Theme.of(context).textTheme.display2),
                 ],
               ),
               _dishSwap(dish.swap)

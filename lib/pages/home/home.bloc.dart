@@ -13,7 +13,6 @@ class HomeBloc {
   Stream<Color> get color => _colorAnimationController.stream;
 
   setColor(Color value) {
-    print('setColor ${value}');
     _colorAnimationController.sink.add(value);
   }
 
@@ -27,9 +26,9 @@ class HomeBloc {
       'dish': [
         {'type': 1, 'name': 'Strogonoff carne', 'swap': true},
         {'type': 2, 'name': 'Batata Chips', 'swap': true},
-        {'type': 3, 'name': 'Moranguete', 'swap': true},
-        {'type': 4, 'name': 'Alface', 'swap': true},
-        {'type': 5, 'name': 'Jiló', 'swap': true}
+        {'type': 3, 'name': 'Moranguete', 'swap': false},
+        {'type': 4, 'name': 'Alface', 'swap': false},
+        {'type': 5, 'name': 'Jiló', 'swap': false}
       ]
     },
     {
@@ -39,7 +38,7 @@ class HomeBloc {
       'dish': [
         {'type': 1, 'name': 'Strogonoff carne', 'swap': true},
         {'type': 2, 'name': 'Batata Chips', 'swap': false},
-        {'type': 3, 'name': 'Moranguete', 'swap': false},
+        {'type': 3, 'name': 'Fruta', 'swap': false},
         {'type': 4, 'name': 'Alface', 'swap': false},
         {'type': 5, 'name': 'Jiló', 'swap': false}
       ]
@@ -90,7 +89,6 @@ class HomeBloc {
   }
 
   void setPage(page) {
-    print(page);
     _currentPage = page;
     _currentPageController.add(_currentPage);
   }
