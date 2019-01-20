@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeBloc bloc;
+  GlobalKey key = new GlobalKey();
 
   @override
   void initState() {}
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     bloc = HomeBlocProvider.of(context);
     return Scaffold(
+        key: key,
         appBar: AppBar(
           title: Text('Home'),
           elevation: 0.0,
@@ -94,21 +96,24 @@ class _HomePageState extends State<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(dish.name,
-                      style: Theme.of(context).textTheme.display1),
-                  Text(_dishType(dish.type), style: Theme.of(context).textTheme.display2),
+                  Text(dish.name, style: Theme.of(context).textTheme.display1),
+                  Text(_dishType(dish.type),
+                      style: Theme.of(context).textTheme.display2),
                 ],
               ),
-              _dishSwap(dish.swap)
+              _dishSwap(context, dish.swap)
             ],
           )),
     );
   }
 
-  Widget _dishSwap(bool swap) {
+  Widget _dishSwap(BuildContext context, bool swap) {
     if (swap == true) {
       return IconButton(
         icon: Icon(Icons.autorenew),
+        onPressed: () {
+          showModal(context);
+        },
       );
     }
     return new Container(padding: EdgeInsets.all(24.0));
@@ -133,5 +138,27 @@ class _HomePageState extends State<HomePage> {
     List<Widget> list = [];
     day.dish.forEach((d) => list.add(_dish(context, d)));
     return list;
+  }
+
+  showModal(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 150.0,
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text('Prato Principal'),
+                  subtitle: Text('Frango Frito'),
+                ),
+                ListTile(
+                  title: Text('Alternativo I'),
+                  subtitle: Text('Ovo Frito'),
+                )
+              ],
+            ),
+          );
+        });
   }
 }
