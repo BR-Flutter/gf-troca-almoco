@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             Container(
               color: Colors.green[400],
-              padding: EdgeInsets.only(bottom: 50.0),
+              padding: EdgeInsets.only(bottom: 40.0),
               child: Stack(
                 overflow: Overflow.visible,
                 children: <Widget>[
@@ -143,25 +143,40 @@ class _HomePageState extends State<HomePage> {
                         bloc.setPage(page);
                       },
                       children: <Widget>[
-                        ListView(
-                          children: _listDish(
-                              context, Day.fromJSON(bloc.response[0])),
+                        ListView.builder(
+                          itemCount: Day.fromJSON(bloc.response[0]).dish.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _dish(context,
+                                Day.fromJSON(bloc.response[0]).dish[index]);
+                          },
                         ),
-                        ListView(
-                          children: _listDish(
-                              context, Day.fromJSON(bloc.response[1])),
+                        ListView.builder(
+                          itemCount: Day.fromJSON(bloc.response[1]).dish.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _dish(context,
+                                Day.fromJSON(bloc.response[1]).dish[index]);
+                          },
                         ),
-                        ListView(
-                          children: _listDish(
-                              context, Day.fromJSON(bloc.response[2])),
+                        ListView.builder(
+                          itemCount: Day.fromJSON(bloc.response[2]).dish.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _dish(context,
+                                Day.fromJSON(bloc.response[2]).dish[index]);
+                          },
                         ),
-                        ListView(
-                          children: _listDish(
-                              context, Day.fromJSON(bloc.response[3])),
+                        ListView.builder(
+                          itemCount: Day.fromJSON(bloc.response[3]).dish.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _dish(context,
+                                Day.fromJSON(bloc.response[3]).dish[index]);
+                          },
                         ),
-                        ListView(
-                          children: _listDish(
-                              context, Day.fromJSON(bloc.response[4])),
+                        ListView.builder(
+                          itemCount: Day.fromJSON(bloc.response[4]).dish.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _dish(context,
+                                Day.fromJSON(bloc.response[4]).dish[index]);
+                          },
                         )
                       ],
                     ),
@@ -218,12 +233,6 @@ class _HomePageState extends State<HomePage> {
       case 5:
         return 'Salada 2';
     }
-  }
-
-  List<Widget> _listDish(BuildContext context, Day day) {
-    List<Widget> list = [];
-    day.dish.forEach((d) => list.add(_dish(context, d)));
-    return list;
   }
 
   showModal(BuildContext context) {
