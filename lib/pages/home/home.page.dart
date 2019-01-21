@@ -61,7 +61,76 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            headerWeek(context, bloc),
+            Container(
+              color: Colors.green[400],
+              padding: EdgeInsets.only(bottom: 50.0),
+              child: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Positioned(
+                    child: Container(
+                      height: 90.0,
+                      width: 90.0,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800], shape: BoxShape.circle),
+                    ),
+                    bottom: -30.0,
+                    left: -10.0,
+                  ),
+                  Positioned(
+                    child: Container(
+                      height: 80.0,
+                      width: 80.0,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800], shape: BoxShape.circle),
+                    ),
+                    bottom: -35.0,
+                    left: 70.0,
+                  ),
+                  Positioned(
+                    child: Container(
+                      height: 110.0,
+                      width: 110.0,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800], shape: BoxShape.circle),
+                    ),
+                    bottom: -40.0,
+                    left: 130.0,
+                  ),
+                  Positioned(
+                    child: Container(
+                      height: 90.0,
+                      width: 90.0,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800], shape: BoxShape.circle),
+                    ),
+                    bottom: -35.0,
+                    left: 210.0,
+                  ),
+                  Positioned(
+                    child: Container(
+                      height: 100.0,
+                      width: 100.0,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800], shape: BoxShape.circle),
+                    ),
+                    bottom: -30.0,
+                    left: 270.0,
+                  ),
+                  Positioned(
+                    child: Container(
+                      height: 90.0,
+                      width: 90.0,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800], shape: BoxShape.circle),
+                    ),
+                    bottom: -30.0,
+                    left: 350.0,
+                  ),
+                  headerWeek(context, bloc),
+                ],
+              ),
+            ),
             Flexible(
                 fit: FlexFit.loose,
                 child: Container(
