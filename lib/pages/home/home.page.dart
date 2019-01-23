@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gf_troca_almoco/pages/home/border.clipper.dart';
 import 'package:gf_troca_almoco/pages/home/home.provider.dart';
 import 'package:gf_troca_almoco/pages/home/home.model.dart';
 import 'package:gf_troca_almoco/pages/home/header.widget.dart';
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     bloc = HomeBlocProvider.of(context);
     return Scaffold(
         key: key,
+        backgroundColor: Colors.green[400],
         appBar: AppBar(
           title: Text('Home'),
           elevation: 0.0,
@@ -61,74 +63,16 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              color: Colors.green[400],
-              padding: EdgeInsets.only(bottom: 40.0),
-              child: Stack(
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Positioned(
-                    child: Container(
-                      height: 90.0,
-                      width: 90.0,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800], shape: BoxShape.circle),
-                    ),
-                    bottom: -30.0,
-                    left: -10.0,
-                  ),
-                  Positioned(
-                    child: Container(
-                      height: 80.0,
-                      width: 80.0,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800], shape: BoxShape.circle),
-                    ),
-                    bottom: -35.0,
-                    left: 70.0,
-                  ),
-                  Positioned(
-                    child: Container(
-                      height: 110.0,
-                      width: 110.0,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800], shape: BoxShape.circle),
-                    ),
-                    bottom: -40.0,
-                    left: 130.0,
-                  ),
-                  Positioned(
-                    child: Container(
-                      height: 90.0,
-                      width: 90.0,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800], shape: BoxShape.circle),
-                    ),
-                    bottom: -35.0,
-                    left: 210.0,
-                  ),
-                  Positioned(
-                    child: Container(
-                      height: 100.0,
-                      width: 100.0,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800], shape: BoxShape.circle),
-                    ),
-                    bottom: -30.0,
-                    left: 270.0,
-                  ),
-                  Positioned(
-                    child: Container(
-                      height: 90.0,
-                      width: 90.0,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800], shape: BoxShape.circle),
-                    ),
-                    bottom: -30.0,
-                    left: 350.0,
-                  ),
-                  headerWeek(context, bloc),
-                ],
+            ClipPath(
+              clipper: BorderClipper(),
+              child: Container(
+                color: Colors.green[400],
+                child: Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    headerWeek(context, bloc)
+                  ],
+                ),
               ),
             ),
             Flexible(
@@ -136,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   color: Colors.green[400],
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: PageView(
                       controller: bloc.pageController,
                       onPageChanged: (page) {
