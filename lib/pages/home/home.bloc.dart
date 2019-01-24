@@ -4,9 +4,9 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 class HomeBloc {
-  final pageController = new PageController();
+  TabController tabController;
   int _currentPage;
-  final _currentPageController = BehaviorSubject<int>();
+  final _currentTabController = BehaviorSubject<int>();
 
   final _colorAnimationController = BehaviorSubject<Color>();
 
@@ -16,7 +16,7 @@ class HomeBloc {
     _colorAnimationController.sink.add(value);
   }
 
-  Stream<int> get currentPage => _currentPageController.stream;
+  Stream<int> get currentTab => _currentTabController.stream;
 
   List<Map> response = [
     {
@@ -83,13 +83,13 @@ class HomeBloc {
 
   dispose() {}
 
-  void toPage(int page) async {
-    await pageController.animateToPage(page,
+  void toPage(int page) {
+    tabController.animateTo(page,
         duration: Duration(milliseconds: 280), curve: Curves.ease);
   }
 
   void setPage(page) {
     _currentPage = page;
-    _currentPageController.add(_currentPage);
+    _currentTabController.add(_currentPage);
   }
 }

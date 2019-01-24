@@ -9,12 +9,15 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin  {
   HomeBloc bloc;
   GlobalKey key = new GlobalKey();
+//  TabController _tabController;
 
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -30,6 +33,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bloc.tabController = new TabController(length: 5, vsync: this);
+
     return Scaffold(
       body: DefaultTabController(
           length: 5,
@@ -38,7 +43,6 @@ class _HomePageState extends State<HomePage> {
                   (BuildContext context, bool innerBoxIsCrolled) {
                 return <Widget>[
                   SliverAppBar(
-                    floating: false,
                     pinned: true,
                     elevation: 0.0,
                     title: Text('Cardipio'),
@@ -52,13 +56,15 @@ class _HomePageState extends State<HomePage> {
               },
               body: Container(
                 color: Colors.green[300],
-                child: TabBarView(children: <Widget>[
-                  TabView(0),
-                  TabView(1),
-                  TabView(2),
-                  TabView(3),
-                  TabView(4),
-                ]),
+                child: TabBarView(
+                  controller: bloc.tabController,
+                    children: <Widget>[
+                      TabView(0),
+                      TabView(1),
+                      TabView(2),
+                      TabView(3),
+                      TabView(4),
+                    ]),
               ))),
     );
   }

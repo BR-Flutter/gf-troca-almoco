@@ -129,7 +129,7 @@ class _DayWeekState extends State<DayWeek> with TickerProviderStateMixin {
                       );
                     }
                   },
-                  stream: this.widget.bloc.currentPage,
+                  stream: this.widget.bloc.currentTab,
                   initialData: 0),
             )),
       ),
