@@ -7,7 +7,6 @@ TextStyle selected = TextStyle(fontSize: 36.0, color: Colors.white);
 Widget headerWeek(BuildContext context, HomeBloc bloc) {
   return Container(
     color: Colors.green[800],
-    padding: EdgeInsets.only(bottom: 40.0),
     child: Column(
       children: <Widget>[
         Padding(

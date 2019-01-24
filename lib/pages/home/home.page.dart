@@ -30,104 +30,47 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bloc = HomeBlocProvider.of(context);
     return Scaffold(
-        key: key,
-        backgroundColor: Colors.green[400],
-        appBar: AppBar(
-          title: Text('Home'),
-          elevation: 0.0,
-        ),
-        drawer: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[Text('Trocas')],
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            ListTile(
-                title:
-                    Text('Home', style: Theme.of(context).textTheme.display1)),
-            ListTile(
-                title:
-                    Text('Sair', style: Theme.of(context).textTheme.display1))
-          ],
-        )),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            ClipPath(
-              clipper: BorderClipper(),
-              child: Container(
-                color: Colors.green[400],
-                child: Stack(
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    headerWeek(context, bloc)
-                  ],
-                ),
-              ),
-            ),
-            Flexible(
-                fit: FlexFit.loose,
-                child: Container(
-                  color: Colors.green[400],
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: PageView(
-                      controller: bloc.pageController,
-                      onPageChanged: (page) {
-                        bloc.setPage(page);
-                      },
-                      children: <Widget>[
-                        ListView.builder(
-                          itemCount: Day.fromJSON(bloc.response[0]).dish.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _dish(context,
-                                Day.fromJSON(bloc.response[0]).dish[index]);
-                          },
-                        ),
-                        ListView.builder(
-                          itemCount: Day.fromJSON(bloc.response[1]).dish.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _dish(context,
-                                Day.fromJSON(bloc.response[1]).dish[index]);
-                          },
-                        ),
-                        ListView.builder(
-                          itemCount: Day.fromJSON(bloc.response[2]).dish.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _dish(context,
-                                Day.fromJSON(bloc.response[2]).dish[index]);
-                          },
-                        ),
-                        ListView.builder(
-                          itemCount: Day.fromJSON(bloc.response[3]).dish.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _dish(context,
-                                Day.fromJSON(bloc.response[3]).dish[index]);
-                          },
-                        ),
-                        ListView.builder(
-                          itemCount: Day.fromJSON(bloc.response[4]).dish.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _dish(context,
-                                Day.fromJSON(bloc.response[4]).dish[index]);
-                          },
-                        )
-                      ],
-                    ),
+      body: DefaultTabController(
+          length: 5,
+          child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsCrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    floating: false,
+                    pinned: true,
+                    elevation: 0.0,
+                    title: Text('Cardipio'),
                   ),
-                ))
-          ],
-        ));
+                  SliverPersistentHeader(
+                    delegate: _SliverAppBarDelegate(
+                        80.0, 160.0, headerWeek(context, bloc)),
+                    pinned: true,
+                  ),
+                ];
+              },
+              body: Container(
+                color: Colors.green[300],
+                child: TabBarView(children: <Widget>[
+                  TabView(0),
+                  TabView(1),
+                  TabView(2),
+                  TabView(3),
+                  TabView(4),
+                ]),
+              ))),
+    );
+  }
+
+  Widget TabView(int day) {
+    return ListView.builder(
+      padding: EdgeInsets.all(8.0),
+      itemCount: Day.fromJSON(bloc.response[day]).dish.length,
+      itemBuilder: (BuildContext context, int index) {
+        return _dish(context, Day.fromJSON(bloc.response[day]).dish[index]);
+      },
+    );
   }
 
   Widget _dish(BuildContext context, Dish dish) {
@@ -199,5 +142,98 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         });
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._minHeight, this._maxHeight, this._widget);
+
+  final Widget _widget;
+  final double _minHeight;
+  final double _maxHeight;
+
+  @override
+  double get minExtent => _minHeight;
+
+  @override
+  double get maxExtent => _maxHeight;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    print('build $shrinkOffset');
+    print('build $overlapsContent');
+
+    return shrinkOffset > 0
+        ? Container(
+            constraints: BoxConstraints.expand(),
+            color: Colors.green[800],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'SEG',
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w500),
+                    ),
+                    Text('21', style: TextStyle(fontSize: 28.0))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'TER',
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w500),
+                    ),
+                    Text('22', style: TextStyle(fontSize: 28.0))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'QUA',
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w500),
+                    ),
+                    Text('23', style: TextStyle(fontSize: 28.0))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'QUI',
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w500),
+                    ),
+                    Text('24', style: TextStyle(fontSize: 28.0))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'SEX',
+                      style: TextStyle(
+                          fontSize: 14.0, fontWeight: FontWeight.w500),
+                    ),
+                    Text('25', style: TextStyle(fontSize: 28.0))
+                  ],
+                ),
+              ],
+            ),
+          )
+        : _widget;
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }
