@@ -60,7 +60,7 @@ class _DayWeekState extends State<DayWeek> with TickerProviderStateMixin {
   @override
   void initState() {
     animation = new AnimationController(
-        duration: Duration(milliseconds: 480), vsync: this);
+        duration: Duration(milliseconds: 180), vsync: this);
     increaseAnimationColor =
         new ColorTween(begin: Colors.white54, end: Colors.white)
             .animate(animation)

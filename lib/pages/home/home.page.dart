@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    bloc.listen();
   }
 
   @override
