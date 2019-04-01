@@ -16,6 +16,10 @@ class HomeBloc {
     _colorAnimationController.sink.add(value);
   }
 
+  constructor() {
+    listen();
+  }
+
   Stream<int> get currentTab => _currentTabController.stream;
 
   List<Map> response = [
@@ -83,9 +87,14 @@ class HomeBloc {
 
   dispose() {}
 
+  void listen() {
+    currentTab.listen((data) => {print(data)});
+  }
+
   void toPage(int page) {
     tabController.animateTo(page,
         duration: Duration(milliseconds: 280), curve: Curves.ease);
+    setPage(page);
   }
 
   void setPage(page) {
